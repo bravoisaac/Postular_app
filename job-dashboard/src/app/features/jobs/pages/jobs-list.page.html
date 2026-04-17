@@ -1,0 +1,115 @@
+<div class="header">
+  <div>
+    <div class="title">Trabajos</div>
+    <div class="subtitle">Ordenados por match IA (descendente)</div>
+  </div>
+
+  <div class="header__actions">
+    <button mat-stroked-button (click)="discoverWithAi()" [disabled]="(vm$ | async)?.loading">
+      <mat-icon>travel_explore</mat-icon>
+      Descubrir (IA)
+    </button>
+    <button mat-stroked-button (click)="jobsStore.loadJobs()" [disabled]="(vm$ | async)?.loading">
+      <mat-icon>refresh</mat-icon>
+      Actualizar
+    </button>
+  </div>
+</div>
+
+<mat-card class="filters">
+  <div class="filters__grid">
+    <mat-form-field appearance="outline">
+      <mat-label>Buscar</mat-label>
+      <input matInput [formControl]="jobsStore.searchControl" placeholder="Título o empresa" />
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Tecnología</mat-label>
+      <mat-select [formControl]="jobsStore.techControl">
+        <mat-option value="">Todas</mat-option>
+        <mat-option value="Python">Python</mat-option>
+        <mat-option value="Angular">Angular</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Ubicación</mat-label>
+      <input matInput [formControl]="jobsStore.locationControl" placeholder="Ej: Remoto, Santiago" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Score mínimo</mat-label>
+      <input matInput type="number" [formControl]="jobsStore.minScoreControl" placeholder="0-100" />
+    </mat-form-field>
+  </div>
+</mat-card>
+
+@if ((vm$ | async)?.loading) {
+  <div class="cards">
+    @for (i of skeleton; track i) {
+      <mat-card class="job-card skeleton">
+        <div class="s-line w-60"></div>
+        <div class="s-line w-40"></div>
+        <div class="s-line w-30"></div>
+        <div class="s-bar"></div>
+        <div class="s-actions">
+          <div class="s-pill"></div>
+          <div class="s-pill"></div>
+        </div>
+      </mat-card>
+    }
+  </div>
+} @else {
+  <div class="cards">
+    @for (job of (vm$ | async)?.filteredJobs ?? []; track job.id) {
+      <mat-card class="job-card">
+        <div class="job-card__top">
+          <div class="job-card__main">
+            <div class="job-card__title">{{ job.titulo }}</div>
+            <div class="job-card__company">{{ job.empresa }}</div>
+            <div class="job-card__meta">
+              <mat-icon>place</mat-icon>
+              {{ job.ubicacion }}
+            </div>
+          </div>
+
+          <mat-chip-set class="job-card__chips">
+            <mat-chip [ngClass]="job.aplicado ? 'chip--applied' : 'chip--open'">
+              {{ job.aplicado ? 'Postulado' : 'No aplicado' }}
+            </mat-chip>
+          </mat-chip-set>
+        </div>
+
+        <div class="score">
+          <div class="score__row">
+            <div class="score__label">Match IA</div>
+            <div class="score__value" [ngClass]="jobsStore.scoreClass(job.match_score)">
+              {{ job.match_score }}%
+            </div>
+          </div>
+          <mat-progress-bar
+            class="progress"
+            [ngClass]="jobsStore.scoreClass(job.match_score)"
+            [value]="job.match_score"
+            [color]="jobsStore.scoreColor(job.match_score)"
+          />
+        </div>
+
+        <div class="actions">
+          <a mat-button [routerLink]="['/jobs', job.id]">Ver</a>
+          <button mat-flat-button color="primary" (click)="apply(job.id)" [disabled]="job.aplicado">
+            Postular
+          </button>
+        </div>
+      </mat-card>
+    }
+
+    @if (((vm$ | async)?.filteredJobs?.length ?? 0) === 0) {
+      <div class="empty">
+        <mat-icon>search_off</mat-icon>
+        <div>No hay resultados con los filtros actuales.</div>
+      </div>
+    }
+  </div>
+}

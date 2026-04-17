@@ -1,0 +1,65 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 16px;
+}
+
+.kpi {
+  grid-column: span 12;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: color-mix(in oklab, var(--jd-sys-surface) 96%, white);
+}
+
+.kpi__icon {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  background: color-mix(in oklab, var(--jd-sys-primary) 14%, transparent);
+  color: var(--jd-sys-primary);
+}
+
+.kpi__label {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.kpi__value {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.chart {
+  grid-column: span 12;
+  padding: 16px;
+  border-radius: 16px;
+  background: color-mix(in oklab, var(--jd-sys-surface) 96%, white);
+}
+
+.chart__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.chart__title {
+  font-weight: 700;
+}
+
+.chart__hint {
+  font-size: 12px;
+  opacity: 0.75;
+}
+
+@media (min-width: 900px) {
+  .kpi {
+    grid-column: span 4;
+  }
+}

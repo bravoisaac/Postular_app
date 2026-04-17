@@ -1,0 +1,44 @@
+<div class="top">
+  <a mat-button routerLink="/jobs">
+    <mat-icon>arrow_back</mat-icon>
+    Volver
+  </a>
+  <div class="title">Generador de postulación</div>
+</div>
+
+@if (vm$ | async; as res) {
+  <div class="grid">
+    <mat-card class="panel">
+      <div class="panel__head">
+        <div class="panel__title">Correo</div>
+        <button mat-icon-button (click)="copyCorreo()" aria-label="Copiar correo">
+          <mat-icon>content_copy</mat-icon>
+        </button>
+      </div>
+      <textarea class="text" [formControl]="correoControl" rows="10"></textarea>
+    </mat-card>
+
+    <mat-card class="panel">
+      <div class="panel__head">
+        <div class="panel__title">Mensaje LinkedIn</div>
+        <button mat-icon-button (click)="copyMensaje()" aria-label="Copiar mensaje">
+          <mat-icon>content_copy</mat-icon>
+        </button>
+      </div>
+      <textarea class="text" [formControl]="mensajeControl" rows="10"></textarea>
+    </mat-card>
+
+    <mat-card class="panel actions">
+      <button mat-flat-button color="primary" (click)="markApplied()">
+        <mat-icon>check_circle</mat-icon>
+        Marcar como aplicado
+      </button>
+      <div class="hint">Tip: Copia y pega en tu flujo real de postulación.</div>
+    </mat-card>
+  </div>
+} @else {
+  <div class="loading">
+    <mat-spinner diameter="44"></mat-spinner>
+    <div>Generando con IA…</div>
+  </div>
+}

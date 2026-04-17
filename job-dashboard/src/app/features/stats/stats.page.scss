@@ -1,0 +1,16 @@
+.wrap {
+  border-radius: 16px;
+  padding: 16px;
+  background: color-mix(in oklab, var(--jd-sys-surface) 96%, white);
+}
+
+.title {
+  font-weight: 900;
+  font-size: 20px;
+}
+
+.hint {
+  font-size: 12px;
+  opacity: 0.75;
+  margin-bottom: 12px;
+}

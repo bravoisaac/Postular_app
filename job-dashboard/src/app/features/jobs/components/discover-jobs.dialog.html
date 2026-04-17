@@ -1,0 +1,89 @@
+<div class="head">
+  <div>
+    <div class="title">Descubrir trabajos (IA)</div>
+    <div class="hint">Requiere un endpoint en FastAPI: <code>POST /discover</code>.</div>
+  </div>
+  <button mat-icon-button (click)="close()" aria-label="Cerrar">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<form class="form" [formGroup]="form" (ngSubmit)="discover()">
+  <mat-form-field appearance="outline">
+    <mat-label>Qué buscar</mat-label>
+    <input matInput formControlName="query" placeholder="Ej: Angular Developer remoto" />
+    @if (form.controls.query.touched && form.controls.query.invalid) {
+      <mat-error>Escribe un término de búsqueda</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Ubicación</mat-label>
+    <input matInput formControlName="location" placeholder="Ej: Chile, Remoto" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Tecnologías</mat-label>
+    <mat-select formControlName="technologies" multiple>
+      <mat-option value="Python">Python</mat-option>
+      <mat-option value="FastAPI">FastAPI</mat-option>
+      <mat-option value="Angular">Angular</mat-option>
+      <mat-option value="TypeScript">TypeScript</mat-option>
+      <mat-option value="MySQL">MySQL</mat-option>
+      <mat-option value="AWS">AWS</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Límite</mat-label>
+    <input matInput type="number" formControlName="limit" min="1" max="50" />
+  </mat-form-field>
+
+  <div class="actions">
+    <button mat-flat-button color="primary" type="submit" [disabled]="loading()">
+      <mat-icon>travel_explore</mat-icon>
+      Buscar URLs
+    </button>
+    <span class="spacer"></span>
+    <button mat-stroked-button type="button" (click)="importAll()" [disabled]="loading() || !results().length">
+      <mat-icon>playlist_add</mat-icon>
+      Importar todo
+    </button>
+  </div>
+</form>
+
+@if (loading()) {
+  <div class="loading">
+    <mat-spinner diameter="40" />
+    <div>Buscando con IA…</div>
+  </div>
+} @else {
+  @if (results().length) {
+    <div class="grid">
+      @for (j of results(); track j.link) {
+        <mat-card class="card">
+          <div class="card__title">{{ j.titulo }}</div>
+          <div class="card__sub">{{ j.empresa }} · {{ j.ubicacion ?? '—' }}</div>
+
+          @if (j.tecnologias?.length) {
+            <mat-chip-set class="chips">
+              @for (t of j.tecnologias; track t) {
+                <mat-chip>{{ t }}</mat-chip>
+              }
+            </mat-chip-set>
+          }
+
+          <div class="card__link">
+            <mat-icon>link</mat-icon>
+            <a [href]="j.link" target="_blank" rel="noopener">{{ j.link }}</a>
+          </div>
+        </mat-card>
+      }
+    </div>
+  } @else {
+    <div class="empty">
+      <mat-icon>tips_and_updates</mat-icon>
+      <div>Escribe un término y busca para traer URLs desde el backend IA.</div>
+    </div>
+  }
+}

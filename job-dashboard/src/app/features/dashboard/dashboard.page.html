@@ -1,0 +1,44 @@
+<div class="grid">
+  <mat-card class="kpi">
+    <div class="kpi__icon">
+      <mat-icon>work</mat-icon>
+    </div>
+    <div class="kpi__meta">
+      <div class="kpi__label">Total trabajos</div>
+      <div class="kpi__value">{{ (vm$ | async)?.jobsCount ?? 0 }}</div>
+    </div>
+  </mat-card>
+
+  <mat-card class="kpi">
+    <div class="kpi__icon">
+      <mat-icon>send</mat-icon>
+    </div>
+    <div class="kpi__meta">
+      <div class="kpi__label">Postulaciones</div>
+      <div class="kpi__value">{{ (vm$ | async)?.appliedCount ?? 0 }}</div>
+    </div>
+  </mat-card>
+
+  <mat-card class="kpi">
+    <div class="kpi__icon">
+      <mat-icon>trending_up</mat-icon>
+    </div>
+    <div class="kpi__meta">
+      <div class="kpi__label">Tasa de éxito</div>
+      <div class="kpi__value">{{ successRate() | percent : '1.0-0' }}</div>
+    </div>
+  </mat-card>
+
+  <mat-card class="chart">
+    <div class="chart__header">
+      <div class="chart__title">Postulaciones por día</div>
+      <div class="chart__hint">Si el backend no envía fechas, se muestra agregado.</div>
+    </div>
+    <canvas
+      baseChart
+      [data]="(vm$ | async)?.applicationsChart?.data"
+      [options]="(vm$ | async)?.applicationsChart?.options"
+      [type]="'bar'"
+    ></canvas>
+  </mat-card>
+</div>

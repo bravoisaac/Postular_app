@@ -1,0 +1,68 @@
+@if (vm$ | async; as vm) {
+  @if (!vm.job) {
+    <mat-card class="wrap">
+      <div class="empty">
+        <mat-icon>error_outline</mat-icon>
+        <div>Trabajo no encontrado (id {{ vm.id }}).</div>
+      </div>
+    </mat-card>
+  } @else {
+    <div class="top">
+      <div>
+        <div class="title">{{ vm.job.titulo }}</div>
+        <div class="company">{{ vm.job.empresa }} · {{ vm.job.ubicacion }}</div>
+      </div>
+
+      <div class="cta">
+        <a mat-stroked-button [routerLink]="['/jobs', vm.job.id, 'generate']">
+          <mat-icon>auto_awesome</mat-icon>
+          Generar postulación
+        </a>
+        <button mat-flat-button color="primary" (click)="openOffer(vm.job)">
+          <mat-icon>open_in_new</mat-icon>
+          Abrir oferta
+        </button>
+      </div>
+    </div>
+
+    <mat-card class="wrap">
+      <div class="section">
+        <div class="section__title">Match IA</div>
+        <div class="score">
+          <div class="score__value" [ngClass]="jobsStore.scoreClass(vm.job.match_score)">
+            {{ vm.job.match_score }}%
+          </div>
+          <mat-progress-bar
+            class="progress"
+            [ngClass]="jobsStore.scoreClass(vm.job.match_score)"
+            [value]="vm.job.match_score"
+            [color]="jobsStore.scoreColor(vm.job.match_score)"
+          />
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section__title">Descripción</div>
+        <div class="desc">{{ vm.job.descripcion }}</div>
+      </div>
+
+      <div class="section">
+        <div class="section__title">Análisis IA</div>
+        @if (vm.job.ia_razones?.length) {
+          <mat-chip-set>
+            @for (r of vm.job.ia_razones; track r) {
+              <mat-chip>{{ r }}</mat-chip>
+            }
+          </mat-chip-set>
+        } @else {
+          <div class="muted">El backend no envió razones; se mostrará solo el score.</div>
+        }
+      </div>
+    </mat-card>
+  }
+} @else {
+  <div class="loading">
+    <mat-spinner diameter="44"></mat-spinner>
+    <div>Cargando…</div>
+  </div>
+}

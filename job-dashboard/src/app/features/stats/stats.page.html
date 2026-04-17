@@ -1,0 +1,11 @@
+<mat-card class="wrap">
+  <div class="title">Estadísticas</div>
+  <div class="hint">Vista dedicada (reutiliza los datos del dashboard).</div>
+
+  <canvas
+    baseChart
+    [data]="(vm$ | async)?.applicationsChart?.data"
+    [options]="(vm$ | async)?.applicationsChart?.options"
+    [type]="'line'"
+  ></canvas>
+</mat-card>

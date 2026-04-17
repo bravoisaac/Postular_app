@@ -1,0 +1,21 @@
+@use './styles/material-theme';
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  background: color-mix(in oklab, var(--jd-sys-surface) 92%, black);
+  color: var(--jd-sys-on-surface);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.app-page {
+  padding: 16px;
+}

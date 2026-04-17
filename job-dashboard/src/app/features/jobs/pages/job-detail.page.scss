@@ -1,0 +1,78 @@
+.top {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 900;
+  line-height: 1.1;
+}
+
+.company {
+  opacity: 0.8;
+  margin-top: 6px;
+}
+
+.cta {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.wrap {
+  border-radius: 16px;
+  padding: 16px;
+  background: color-mix(in oklab, var(--jd-sys-surface) 96%, white);
+}
+
+.section + .section {
+  margin-top: 16px;
+}
+
+.section__title {
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.desc {
+  white-space: pre-wrap;
+  line-height: 1.55;
+  opacity: 0.95;
+}
+
+.score__value {
+  font-weight: 900;
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.progress.score--good {
+  --mdc-linear-progress-active-indicator-color: #2e7d32;
+}
+
+.progress.score--mid {
+  --mdc-linear-progress-active-indicator-color: #f9a825;
+}
+
+.progress.score--low {
+  --mdc-linear-progress-active-indicator-color: #c62828;
+}
+
+.muted {
+  font-size: 12px;
+  opacity: 0.75;
+}
+
+.loading,
+.empty {
+  display: grid;
+  place-items: center;
+  gap: 8px;
+  padding: 28px 0;
+  opacity: 0.85;
+}

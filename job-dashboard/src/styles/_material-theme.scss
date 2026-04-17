@@ -1,0 +1,27 @@
+@use '@angular/material' as mat;
+
+$theme: mat.define-theme(
+  (
+    color: (
+      theme-type: light,
+      primary: mat.$azure-palette,
+      tertiary: mat.$cyan-palette,
+      use-system-variables: true,
+      system-variables-prefix: jd
+    ),
+    typography: (
+      use-system-variables: true,
+      system-variables-prefix: jd
+    ),
+    density: (
+      scale: 0
+    )
+  )
+);
+
+:root {
+  @include mat.system-level-colors($theme);
+  @include mat.system-level-typography($theme);
+}
+
+@include mat.all-component-themes($theme);

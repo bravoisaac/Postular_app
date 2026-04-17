@@ -1,0 +1,78 @@
+<mat-sidenav-container class="shell">
+  <mat-sidenav
+    #drawer
+    class="sidenav"
+    [mode]="isHandset() ? 'over' : 'side'"
+    [opened]="!isHandset()"
+  >
+    <div class="brand">
+      <div class="logo">JD</div>
+      <div class="meta">
+        <div class="name">Job Dashboard</div>
+        <div class="tag">Postulaciones con IA</div>
+      </div>
+    </div>
+
+    <mat-divider />
+
+    <mat-nav-list>
+      @for (item of nav; track item.to) {
+        <a
+          mat-list-item
+          [routerLink]="item.to"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: item.to === '/dashboard' }"
+          (click)="maybeClose(drawer)"
+        >
+          <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+          <span matListItemTitle>{{ item.label }}</span>
+        </a>
+      }
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="content">
+    <mat-toolbar class="topbar">
+      <button
+        type="button"
+        mat-icon-button
+        class="menu-btn"
+        (click)="drawer.toggle()"
+        [attr.aria-label]="'Abrir menú'"
+      >
+        <mat-icon>menu</mat-icon>
+      </button>
+
+      <div class="title">Job Dashboard</div>
+      <span class="spacer"></span>
+
+      <button
+        mat-icon-button
+        [matBadge]="3"
+        matBadgeColor="warn"
+        aria-label="Notificaciones"
+        class="icon-btn"
+      >
+        <mat-icon>notifications</mat-icon>
+      </button>
+
+      <button mat-icon-button [matMenuTriggerFor]="userMenu" aria-label="Usuario" class="icon-btn">
+        <mat-icon>account_circle</mat-icon>
+      </button>
+      <mat-menu #userMenu="matMenu">
+        <button mat-menu-item>
+          <mat-icon>person</mat-icon>
+          <span>Perfil</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>settings</mat-icon>
+          <span>Configuración</span>
+        </button>
+      </mat-menu>
+    </mat-toolbar>
+
+    <div class="page">
+      <router-outlet />
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

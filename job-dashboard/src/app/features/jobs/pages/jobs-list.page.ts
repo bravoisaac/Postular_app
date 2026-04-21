@@ -53,6 +53,11 @@ export class JobsListPageComponent {
     });
   }
 
+  toggleHideApplied() {
+    const next = !this.jobsStore.hideAppliedControl.value;
+    this.jobsStore.hideAppliedControl.setValue(next);
+  }
+
   discoverWithAi() {
     const ref = this.dialog.open(DiscoverJobsDialogComponent, {
       autoFocus: false

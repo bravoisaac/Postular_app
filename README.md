@@ -84,6 +84,7 @@ Si cambias el puerto del backend, ajusta:
 En `Trabajos` existe el botón **“Descubrir (IA)”**:
 - Llama `POST /discover` en el backend para traer ofertas (links) usando OpenAI + búsqueda web.
 - Permite “Importar todo” (persistencia vía `POST /jobs`).
+- Incluye filtro personal de **cargos objetivo** (multi-select) + toggles “Junior + remoto / sin experiencia”.
 
 ### Dashboard / Stats
 KPIs + gráfico (Chart.js / ng2-charts):
@@ -107,4 +108,3 @@ KPIs + gráfico (Chart.js / ng2-charts):
   - El backend no está corriendo o el puerto cambió.
 - `429 insufficient_quota`
   - Falta crédito/billing en OpenAI. Activa `MOCK_ON_QUOTA=1` o usa una key con crédito.
-

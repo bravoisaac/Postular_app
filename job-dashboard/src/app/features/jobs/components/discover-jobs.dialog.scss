@@ -42,6 +42,15 @@
   grid-column: span 12;
 }
 
+.toggles {
+  grid-column: span 12;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 2px 0 4px;
+}
+
 .actions {
   grid-column: span 12;
   display: flex;
@@ -67,6 +76,7 @@
   display: grid;
   gap: 10px;
   padding: 0 16px 16px;
+  grid-template-columns: 1fr;
 }
 
 .card {
@@ -88,8 +98,8 @@
 
 .card__link {
   margin-top: 10px;
-  display: inline-flex;
-  align-items: center;
+  display: flex;
+  align-items: flex-start;
   gap: 8px;
   font-size: 12px;
   opacity: 0.9;
@@ -97,10 +107,9 @@
 }
 
 .card__link a {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 760px;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  max-width: 100%;
 }
 
 .chips {
@@ -112,12 +121,22 @@
     grid-column: span 6;
   }
   .form mat-form-field:nth-child(2) {
-    grid-column: span 3;
+    grid-column: span 6;
   }
-  .form mat-form-field:nth-child(3) {
-    grid-column: span 2;
+  .toggles {
+    grid-column: span 12;
   }
   .form mat-form-field:nth-child(4) {
-    grid-column: span 1;
+    grid-column: span 4;
+  }
+  .form mat-form-field:nth-child(5) {
+    grid-column: span 6;
+  }
+  .form mat-form-field:nth-child(6) {
+    grid-column: span 2;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

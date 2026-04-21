@@ -42,6 +42,7 @@ export class JobsStore {
   readonly techControl = new FormControl('', { nonNullable: true });
   readonly locationControl = new FormControl('', { nonNullable: true });
   readonly minScoreControl = new FormControl<number | null>(0);
+  readonly hideAppliedControl = new FormControl(true, { nonNullable: true });
 
   private readonly search$ = this.searchControl.valueChanges.pipe(
     startWith(this.searchControl.value),
@@ -61,9 +62,20 @@ export class JobsStore {
     startWith(this.minScoreControl.value),
     distinctUntilChanged()
   );
+  private readonly hideApplied$ = this.hideAppliedControl.valueChanges.pipe(
+    startWith(this.hideAppliedControl.value),
+    distinctUntilChanged()
+  );
 
-  readonly vm$ = combineLatest([this.state$, this.search$, this.tech$, this.location$, this.minScore$]).pipe(
-    map(([state, search, tech, location, minScore]) => {
+  readonly vm$ = combineLatest([
+    this.state$,
+    this.search$,
+    this.tech$,
+    this.location$,
+    this.minScore$,
+    this.hideApplied$
+  ]).pipe(
+    map(([state, search, tech, location, minScore, hideApplied]) => {
       const jobsSorted = [...state.jobs].sort((a, b) => (b.match_score ?? 0) - (a.match_score ?? 0));
 
       const searchNorm = search.trim().toLowerCase();
@@ -87,7 +99,9 @@ export class JobsStore {
 
         const inScore = (j.match_score ?? 0) >= min;
 
-        return inSearch && inTech && inLocation && inScore;
+        const inApplied = !hideApplied || !j.aplicado;
+
+        return inSearch && inTech && inLocation && inScore && inApplied;
       });
 
       const jobsCount = state.jobs.length;

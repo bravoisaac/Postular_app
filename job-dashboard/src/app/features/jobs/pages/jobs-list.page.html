@@ -5,6 +5,10 @@
   </div>
 
   <div class="header__actions">
+    <button mat-stroked-button (click)="toggleHideApplied()" [disabled]="(vm$ | async)?.loading">
+      <mat-icon>{{ jobsStore.hideAppliedControl.value ? 'visibility' : 'visibility_off' }}</mat-icon>
+      {{ jobsStore.hideAppliedControl.value ? 'Mostrar postulados' : 'Ocultar postulados' }}
+    </button>
     <button mat-stroked-button (click)="discoverWithAi()" [disabled]="(vm$ | async)?.loading">
       <mat-icon>travel_explore</mat-icon>
       Descubrir (IA)

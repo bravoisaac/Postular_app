@@ -12,10 +12,26 @@
   <mat-form-field appearance="outline">
     <mat-label>Qué buscar</mat-label>
     <input matInput formControlName="query" placeholder="Ej: Angular Developer remoto" />
-    @if (form.controls.query.touched && form.controls.query.invalid) {
-      <mat-error>Escribe un término de búsqueda</mat-error>
-    }
+    <mat-hint>Puedes dejarlo vacío y usar “Cargos (personal)” + “Armar búsqueda”.</mat-hint>
   </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Cargos (personal)</mat-label>
+    <mat-select formControlName="roles" multiple>
+      @for (r of personalRoles; track r) {
+        <mat-option [value]="r">{{ r }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <div class="toggles">
+    <mat-slide-toggle formControlName="remoteOnly">Junior + remoto</mat-slide-toggle>
+    <mat-slide-toggle formControlName="noExperience">Junior + sin experiencia</mat-slide-toggle>
+    <button mat-stroked-button type="button" (click)="fillQueryFromRoles()" [disabled]="loading()">
+      <mat-icon>auto_fix_high</mat-icon>
+      Armar búsqueda
+    </button>
+  </div>
 
   <mat-form-field appearance="outline">
     <mat-label>Ubicación</mat-label>

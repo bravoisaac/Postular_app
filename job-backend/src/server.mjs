@@ -20,6 +20,16 @@ function isInsufficientQuota(err) {
   return code === 'insufficient_quota';
 }
 
+function isMissingApiKey(err) {
+  return String(err?.message ?? '').includes('Missing OPENAI_API_KEY');
+}
+
+function isRateLimited(err) {
+  const code = err?.code ?? err?.error?.code;
+  const status = Number(err?.status ?? err?.response?.status);
+  return status === 429 || code === 'rate_limit_exceeded' || code === 'too_many_requests';
+}
+
 function mockDiscoveredJobs({ query, location, technologies, limit }) {
   const q = encodeURIComponent(query);
   const loc = (location || '').trim();
@@ -81,6 +91,41 @@ function mockDiscoveredJobs({ query, location, technologies, limit }) {
   return filled.slice(0, limit);
 }
 
+function normalizeLink(link) {
+  const raw = String(link ?? '').trim();
+  if (!raw) return '';
+  try {
+    const u = new URL(raw);
+    u.hash = '';
+
+    // Remove common tracking params
+    const tracking = new Set([
+      'utm_source',
+      'utm_medium',
+      'utm_campaign',
+      'utm_term',
+      'utm_content',
+      'gclid',
+      'fbclid',
+      'ref',
+      'source'
+    ]);
+    for (const key of [...u.searchParams.keys()]) {
+      if (tracking.has(key.toLowerCase())) u.searchParams.delete(key);
+    }
+
+    // Normalize host casing
+    u.hostname = u.hostname.toLowerCase();
+
+    // Remove trailing slash (except root)
+    if (u.pathname.length > 1 && u.pathname.endsWith('/')) u.pathname = u.pathname.slice(0, -1);
+
+    return u.toString();
+  } catch {
+    return raw.replace(/\/+$/, '');
+  }
+}
+
 const asyncRoute =
   (handler) =>
   (req, res, next) => {
@@ -122,6 +167,13 @@ app.post(
     return res.status(400).json({ detail: 'titulo, empresa y link son requeridos' });
   }
 
+  const incomingNorm = normalizeLink(job.link);
+  const existing = jobs.find((j) => normalizeLink(j?.link) === incomingNorm);
+  if (existing) {
+    // Idempotent insert: if the link already exists, return the existing job.
+    return res.status(200).json(existing);
+  }
+
   jobs.push(job);
   await saveJobs(jobs);
   res.status(201).json(job);
@@ -153,9 +205,6 @@ app.post(
   const job = jobs.find((j) => Number(j.id) === id);
   if (!job) return res.status(404).json({ detail: 'Job no encontrado' });
 
-  const client = getOpenAIClient();
-  const model = getModel();
-
   const prompt = [
     'Genera una postulación profesional en español para este trabajo.',
     'Devuelve SOLO JSON con el formato:',
@@ -169,6 +218,9 @@ app.post(
   ].join('\n');
 
   try {
+    const client = getOpenAIClient();
+    const model = getModel();
+
     const response = await client.responses.create({
       model,
       input: prompt
@@ -180,7 +232,10 @@ app.post(
       mensaje_linkedin: String(data.mensaje_linkedin ?? '')
     });
   } catch (err) {
-    if (process.env.MOCK_ON_QUOTA === '1' && isInsufficientQuota(err)) {
+    if (
+      process.env.MOCK_ON_QUOTA === '1' &&
+      (isInsufficientQuota(err) || isMissingApiKey(err) || isRateLimited(err))
+    ) {
       const correo = [
         `Asunto: Postulación — ${job.titulo} (${job.empresa})`,
         '',
@@ -214,9 +269,6 @@ app.post(
   const loc = String(location ?? '').trim();
   const lim = Math.max(1, Math.min(Number(limit ?? 10), 50));
 
-  const client = getOpenAIClient();
-  const model = getModel();
-
   const prompt = [
     'Encuentra ofertas de trabajo reales en la web usando búsqueda.',
     'Objetivo: devolver URLs (links) de postings de trabajo.',
@@ -239,6 +291,9 @@ app.post(
     .join('\n');
 
   try {
+    const client = getOpenAIClient();
+    const model = getModel();
+
     const response = await client.responses.create({
       model,
       tools: [{ type: 'web_search' }],
@@ -248,8 +303,19 @@ app.post(
     const data = extractJson(response.output_text);
     const jobs = Array.isArray(data.jobs) ? data.jobs : [];
 
+    const seen = new Set();
+    const unique = [];
+    for (const j of jobs) {
+      const link = String(j.link ?? '');
+      const norm = normalizeLink(link);
+      if (!norm || seen.has(norm)) continue;
+      seen.add(norm);
+      unique.push(j);
+      if (unique.length >= lim) break;
+    }
+
     res.json({
-      jobs: jobs.slice(0, lim).map((j) => ({
+      jobs: unique.map((j) => ({
         titulo: String(j.titulo ?? ''),
         empresa: String(j.empresa ?? ''),
         link: String(j.link ?? ''),
@@ -261,14 +327,27 @@ app.post(
       }))
     });
   } catch (err) {
-    if (process.env.MOCK_ON_QUOTA === '1' && isInsufficientQuota(err)) {
+    if (
+      process.env.MOCK_ON_QUOTA === '1' &&
+      (isInsufficientQuota(err) || isMissingApiKey(err) || isRateLimited(err))
+    ) {
+      const mock = mockDiscoveredJobs({
+        query: q,
+        location: loc,
+        technologies: tech,
+        limit: lim
+      });
+      const seen = new Set();
+      const unique = [];
+      for (const j of mock) {
+        const norm = normalizeLink(j?.link);
+        if (!norm || seen.has(norm)) continue;
+        seen.add(norm);
+        unique.push(j);
+        if (unique.length >= lim) break;
+      }
       return res.json({
-        jobs: mockDiscoveredJobs({
-          query: q,
-          location: loc,
-          technologies: tech,
-          limit: lim
-        }),
+        jobs: unique,
         mock: true
       });
     }

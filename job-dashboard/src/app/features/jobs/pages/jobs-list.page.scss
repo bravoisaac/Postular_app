@@ -4,6 +4,9 @@
   justify-content: space-between;
   gap: 12px;
   margin-bottom: 12px;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .header__actions {
@@ -28,6 +31,9 @@
   padding: 12px 12px 4px;
   margin-bottom: 16px;
   background: color-mix(in oklab, var(--jd-sys-surface) 96%, white);
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .filters__grid {
@@ -47,6 +53,11 @@
 .cards {
   display: grid;
   gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  align-items: stretch;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .job-card {
@@ -55,6 +66,9 @@
   background: color-mix(in oklab, var(--jd-sys-surface) 96%, white);
   transition: transform 120ms ease, box-shadow 120ms ease;
   animation: fade-in 140ms ease both;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .job-card:hover {
@@ -66,12 +80,17 @@
   display: flex;
   justify-content: space-between;
   gap: 12px;
+  align-items: flex-start;
 }
 
 .job-card__title {
   font-size: 18px;
   font-weight: 800;
   line-height: 1.2;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .job-card__company {
@@ -141,9 +160,10 @@
 
 .actions {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   gap: 8px;
-  margin-top: 12px;
+  margin-top: auto;
+  padding-top: 12px;
 }
 
 .chip--open {
@@ -252,5 +272,19 @@
   }
   .filters__grid mat-form-field:nth-child(4) {
     grid-column: span 2;
+  }
+}
+
+@media (min-width: 1200px) {
+  .cards {
+    gap: 14px;
+  }
+
+  .job-card {
+    padding: 18px;
+  }
+
+  .job-card__title {
+    font-size: 19px;
   }
 }

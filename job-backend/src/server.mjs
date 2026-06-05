@@ -30,6 +30,40 @@ function isRateLimited(err) {
   return status === 429 || code === 'rate_limit_exceeded' || code === 'too_many_requests';
 }
 
+function cleanText(value, maxLength = 4000) {
+  return String(value ?? '').trim().slice(0, maxLength);
+}
+
+function formatCandidateProfile(profile) {
+  if (!profile || typeof profile !== 'object') return 'Perfil no informado.';
+
+  const rows = [
+    ['Nombre', profile.fullName],
+    ['Email', profile.email],
+    ['Telefono', profile.phone],
+    ['Ubicacion', profile.location],
+    ['LinkedIn', profile.linkedin],
+    ['Portafolio/GitHub', profile.portfolio],
+    ['Resumen profesional', profile.summary],
+    ['Cargos objetivo', profile.targetRoles],
+    ['Habilidades y tecnologias', profile.skills],
+    ['Experiencia', profile.experience],
+    ['Educacion y certificaciones', profile.education],
+    ['Idiomas', profile.languages],
+    ['Archivo CV adjunto', profile.cvFileName],
+    ['Texto CV base', cleanText(profile.cvText, 12000)]
+  ];
+
+  const lines = rows
+    .map(([label, value]) => {
+      const clean = cleanText(value, label === 'Texto CV base' ? 12000 : 4000);
+      return clean ? `${label}: ${clean}` : '';
+    })
+    .filter(Boolean);
+
+  return lines.length ? lines.join('\n') : 'Perfil no informado.';
+}
+
 function mockDiscoveredJobs({ query, location, technologies, limit }) {
   const q = encodeURIComponent(query);
   const loc = (location || '').trim();
@@ -197,7 +231,7 @@ app.put(
 app.post(
   '/generate',
   asyncRoute(async (req, res) => {
-  const { job_id } = req.body ?? {};
+  const { job_id, profile } = req.body ?? {};
   const id = Number(job_id);
   if (!id) return res.status(400).json({ detail: 'job_id requerido' });
 
@@ -205,10 +239,21 @@ app.post(
   const job = jobs.find((j) => Number(j.id) === id);
   if (!job) return res.status(404).json({ detail: 'Job no encontrado' });
 
+  const candidateProfile = formatCandidateProfile(profile);
+
   const prompt = [
     'Genera una postulación profesional en español para este trabajo.',
     'Devuelve SOLO JSON con el formato:',
-    '{ "correo": "...", "mensaje_linkedin": "..." }',
+    '{ "correo": "...", "mensaje_linkedin": "...", "cv": "..." }',
+    '',
+    'Requisitos:',
+    '- Usa el perfil del candidato y adapta el mensaje a la oferta.',
+    '- No inventes experiencia.',
+    '- Genera un CV ATS en espanol, listo para copiar.',
+    '- El CV debe incluir datos personales disponibles y priorizar habilidades relevantes.',
+    '',
+    'Perfil del candidato:',
+    candidateProfile,
     '',
     'Trabajo:',
     `Titulo: ${job.titulo}`,
@@ -229,13 +274,39 @@ app.post(
     const data = extractJson(response.output_text);
     res.json({
       correo: String(data.correo ?? ''),
-      mensaje_linkedin: String(data.mensaje_linkedin ?? '')
+      mensaje_linkedin: String(data.mensaje_linkedin ?? ''),
+      cv: String(data.cv ?? '')
     });
   } catch (err) {
     if (
       process.env.MOCK_ON_QUOTA === '1' &&
       (isInsufficientQuota(err) || isMissingApiKey(err) || isRateLimited(err))
     ) {
+      const candidateName = cleanText(profile?.fullName) || 'Tu Nombre';
+      const candidateEmail = cleanText(profile?.email);
+      const candidatePhone = cleanText(profile?.phone);
+      const candidateLocation = cleanText(profile?.location);
+      const candidateSummary = cleanText(profile?.summary);
+      const candidateSkills = cleanText(profile?.skills);
+      const candidateExperience = cleanText(profile?.experience);
+      const candidateEducation = cleanText(profile?.education);
+      const cv = [
+        candidateName.toUpperCase(),
+        [candidateEmail, candidatePhone, candidateLocation].filter(Boolean).join(' | '),
+        '',
+        'PERFIL PROFESIONAL',
+        candidateSummary || `Perfil junior orientado al cargo ${job.titulo}.`,
+        '',
+        'HABILIDADES',
+        candidateSkills || 'Habilidades relevantes para el cargo.',
+        '',
+        'EXPERIENCIA / PROYECTOS',
+        candidateExperience || 'Agregar proyectos, practicas o experiencia relacionada.',
+        '',
+        'EDUCACION',
+        candidateEducation || 'Agregar educacion, cursos o certificaciones.'
+      ].join('\n');
+
       const correo = [
         `Asunto: Postulación — ${job.titulo} (${job.empresa})`,
         '',
@@ -246,12 +317,12 @@ app.post(
         'Quedo atento/a para coordinar una entrevista.',
         '',
         'Saludos,',
-        'Tu Nombre'
+        candidateName
       ].join('\n');
 
       const mensaje_linkedin = `Hola ${job.empresa}, ¿cómo estás? Me interesa el rol “${job.titulo}”. ¿Podrías indicarme el mejor canal para postular? Gracias!`;
 
-      return res.json({ correo, mensaje_linkedin, mock: true });
+      return res.json({ correo, mensaje_linkedin, cv, mock: true });
     }
     throw err;
   }

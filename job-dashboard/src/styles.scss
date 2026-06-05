@@ -1,22 +1,28 @@
 @use './styles/material-theme';
 
 :root {
-  --jd-mint: #0c8c5e;
-  --jd-ink: #08090a;
-  --jd-black: #000000;
+  --jd-mint: #10b981;
+  --jd-mint-dark: #047857;
+  --jd-blue: #2563eb;
+  --jd-gold: #f59e0b;
+  --jd-ink: #0b1220;
+  --jd-black: #111827;
   --jd-paper: #ffffff;
-  --jd-mist: #f2f2f2;
-  --jd-cloud: #dddddd;
-  --jd-muted: #6b7280;
-  --jd-shadow: 0 2px 4px rgba(8, 9, 10, 0.04);
+  --jd-surface: rgba(255, 255, 255, 0.86);
+  --jd-soft: #f8fafc;
+  --jd-mist: #eef2f7;
+  --jd-cloud: #d8e0ea;
+  --jd-muted: #64748b;
+  --jd-shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+  --jd-shadow-soft: 0 8px 24px rgba(15, 23, 42, 0.06);
   --jd-max: 1200px;
 
   --mdc-filled-button-container-color: var(--jd-ink);
   --mdc-filled-button-label-text-color: var(--jd-paper);
-  --mdc-filled-button-container-shape: 4px;
-  --mdc-outlined-button-container-shape: 4px;
-  --mdc-text-button-container-shape: 4px;
-  --mdc-chip-container-shape-radius: 4px;
+  --mdc-filled-button-container-shape: 999px;
+  --mdc-outlined-button-container-shape: 999px;
+  --mdc-text-button-container-shape: 999px;
+  --mdc-chip-container-shape-radius: 999px;
   --mdc-linear-progress-active-indicator-color: var(--jd-mint);
 }
 
@@ -28,7 +34,10 @@ body {
 body {
   margin: 0;
   font-family: Inter, 'Helvetica Neue', Arial, sans-serif;
-  background: var(--jd-paper);
+  background:
+    radial-gradient(circle at top left, rgba(16, 185, 129, 0.16), transparent 34rem),
+    radial-gradient(circle at top right, rgba(37, 99, 235, 0.12), transparent 30rem),
+    linear-gradient(180deg, #f8fafc 0%, #eef4f8 100%);
   color: var(--jd-black);
   font-size: 15px;
   line-height: 1.5;
@@ -52,16 +61,19 @@ a:hover {
 }
 
 .mat-mdc-card {
-  box-shadow: var(--jd-shadow) !important;
-  border: 1px solid var(--jd-mist);
+  background: var(--jd-surface) !important;
+  border: 1px solid rgba(216, 224, 234, 0.78);
+  box-shadow: var(--jd-shadow-soft) !important;
+  backdrop-filter: blur(18px);
 }
 
 .mat-mdc-card:hover {
-  border-color: var(--jd-cloud);
+  border-color: color-mix(in oklab, var(--jd-mint) 26%, var(--jd-cloud));
+  box-shadow: var(--jd-shadow) !important;
 }
 
 .mat-mdc-form-field {
-  --mdc-outlined-text-field-container-shape: 4px;
+  --mdc-outlined-text-field-container-shape: 14px;
   --mdc-outlined-text-field-focus-outline-color: var(--jd-mint);
   --mdc-outlined-text-field-hover-outline-color: var(--jd-cloud);
   --mdc-outlined-text-field-outline-color: var(--jd-cloud);
@@ -70,8 +82,45 @@ a:hover {
 
 .mat-mdc-chip {
   --mdc-chip-label-text-color: var(--jd-ink);
+  --mdc-chip-elevated-container-color: rgba(255, 255, 255, 0.72);
 }
 
 .mat-mdc-progress-bar {
   --mdc-linear-progress-track-color: var(--jd-mist);
+  --mdc-linear-progress-track-height: 8px;
+  --mdc-linear-progress-active-indicator-height: 8px;
+}
+
+.mat-mdc-menu-panel,
+.mat-mdc-dialog-surface {
+  border: 1px solid rgba(216, 224, 234, 0.86);
+  border-radius: 22px !important;
+  box-shadow: var(--jd-shadow) !important;
+}
+
+.mat-mdc-snack-bar-container {
+  --mdc-snackbar-container-color: var(--jd-ink);
+  --mdc-snackbar-supporting-text-color: white;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--jd-mint) 24%, white);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: color-mix(in oklab, var(--jd-muted) 34%, transparent);
+  border: 3px solid transparent;
+  border-radius: 999px;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in oklab, var(--jd-muted) 52%, transparent);
+  border: 3px solid transparent;
+  background-clip: padding-box;
 }

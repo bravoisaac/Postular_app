@@ -1,0 +1,79 @@
+<div class="header">
+  <div>
+    <div class="eyebrow">Preferencias</div>
+    <h1>Configuración</h1>
+    <p>Ajustes locales para que la app arranque con tus filtros preferidos.</p>
+  </div>
+
+  <a mat-flat-button routerLink="/jobs">
+    <mat-icon>work</mat-icon>
+    Ver trabajos
+  </a>
+</div>
+
+<form class="settings-grid" [formGroup]="form" (ngSubmit)="save()">
+  <mat-card class="panel">
+    <div class="panel__head">
+      <mat-icon>filter_alt</mat-icon>
+      <div>
+        <h2>Filtros por defecto</h2>
+        <p>Se aplican al entrar a la lista de trabajos.</p>
+      </div>
+    </div>
+
+    <div class="fields two">
+      <mat-form-field appearance="outline">
+        <mat-label>Tecnología preferida</mat-label>
+        <mat-select formControlName="preferredTechnology">
+          <mat-option value="">Todas</mat-option>
+          <mat-option value="Angular">Angular</mat-option>
+          <mat-option value="React">React</mat-option>
+          <mat-option value="Python">Python</mat-option>
+          <mat-option value="PHP">PHP</mat-option>
+          <mat-option value="SQL">SQL</mat-option>
+          <mat-option value="AWS">AWS</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Ubicación preferida</mat-label>
+        <input matInput formControlName="preferredLocation" placeholder="Remoto, Chile, Santiago..." />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Score mínimo por defecto</mat-label>
+        <input matInput type="number" min="0" max="100" formControlName="minScoreDefault" />
+      </mat-form-field>
+    </div>
+  </mat-card>
+
+  <mat-card class="panel">
+    <div class="panel__head">
+      <mat-icon>visibility_off</mat-icon>
+      <div>
+        <h2>Vista de trabajos</h2>
+        <p>Controla qué oportunidades ves primero.</p>
+      </div>
+    </div>
+
+    <div class="toggle-row">
+      <div>
+        <strong>Ocultar postulados por defecto</strong>
+        <span>Evita que las ofertas ya postuladas aparezcan en la búsqueda activa.</span>
+      </div>
+      <mat-slide-toggle formControlName="hideAppliedByDefault" />
+    </div>
+  </mat-card>
+
+  <mat-card class="actions">
+    <button mat-flat-button color="primary" type="submit">
+      <mat-icon>save</mat-icon>
+      Guardar configuración
+    </button>
+    <button mat-stroked-button type="button" (click)="reset()">
+      <mat-icon>restart_alt</mat-icon>
+      Restablecer
+    </button>
+    <span>Guardado localmente en este navegador.</span>
+  </mat-card>
+</form>

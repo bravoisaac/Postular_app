@@ -1,0 +1,162 @@
+<div class="header">
+  <div>
+    <div class="eyebrow">Perfil IA</div>
+    <h1>Datos personales y CV</h1>
+    <p>Estos datos se usan para generar correos, mensajes LinkedIn y un CV adaptado a cada oferta.</p>
+  </div>
+
+  <a mat-flat-button routerLink="/jobs">
+    <mat-icon>work</mat-icon>
+    Ver trabajos
+  </a>
+</div>
+
+<form [formGroup]="form" (ngSubmit)="save()" class="profile-grid">
+  <mat-card class="panel">
+    <div class="panel__head">
+      <mat-icon>person</mat-icon>
+      <div>
+        <h2>Datos personales</h2>
+        <p>Informacion basica para identificarte en cada postulacion.</p>
+      </div>
+    </div>
+
+    <div class="fields two">
+      <mat-form-field appearance="outline">
+        <mat-label>Nombre completo</mat-label>
+        <input matInput formControlName="fullName" placeholder="Tu nombre" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email" placeholder="tu@email.com" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Telefono</mat-label>
+        <input matInput formControlName="phone" placeholder="+56 9 ..." />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Ubicacion</mat-label>
+        <input matInput formControlName="location" placeholder="Santiago, Chile / Remoto" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>LinkedIn</mat-label>
+        <input matInput formControlName="linkedin" placeholder="https://linkedin.com/in/..." />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Portafolio / GitHub</mat-label>
+        <input matInput formControlName="portfolio" placeholder="https://github.com/..." />
+      </mat-form-field>
+    </div>
+  </mat-card>
+
+  <mat-card class="panel">
+    <div class="panel__head">
+      <mat-icon>auto_awesome</mat-icon>
+      <div>
+        <h2>Perfil profesional</h2>
+        <p>Ayuda a la IA a vender tu perfil con precision.</p>
+      </div>
+    </div>
+
+    <div class="fields">
+      <mat-form-field appearance="outline">
+        <mat-label>Resumen profesional</mat-label>
+        <textarea
+          matInput
+          formControlName="summary"
+          rows="4"
+          placeholder="Ej: Desarrollador junior con experiencia en Angular, Python, SQL..."
+        ></textarea>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Cargos objetivo</mat-label>
+        <textarea
+          matInput
+          formControlName="targetRoles"
+          rows="3"
+          placeholder="Frontend Junior Angular, Backend Junior Python, Data Analyst Junior..."
+        ></textarea>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Habilidades y tecnologias</mat-label>
+        <textarea
+          matInput
+          formControlName="skills"
+          rows="4"
+          placeholder="Angular, TypeScript, Python, FastAPI, MySQL, Git, AWS..."
+        ></textarea>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Idiomas</mat-label>
+        <textarea matInput formControlName="languages" rows="2" placeholder="Espanol nativo, Ingles basico/intermedio..."></textarea>
+      </mat-form-field>
+    </div>
+  </mat-card>
+
+  <mat-card class="panel panel--wide">
+    <div class="panel__head">
+      <mat-icon>description</mat-icon>
+      <div>
+        <h2>CV base</h2>
+        <p>Adjunta tu CV y pega o edita el texto para que la IA lo adapte a cada oferta.</p>
+      </div>
+    </div>
+
+    <div class="cv-upload">
+      <input
+        #cvInput
+        type="file"
+        accept=".pdf,.doc,.docx,.txt,.md"
+        hidden
+        (change)="onCvSelected($event)"
+      />
+      <button mat-stroked-button type="button" (click)="cvInput.click()">
+        <mat-icon>upload_file</mat-icon>
+        Adjuntar CV
+      </button>
+      <span>{{ form.controls.cvFileName.value || 'Sin archivo adjunto' }}</span>
+    </div>
+
+    <div class="fields two">
+      <mat-form-field appearance="outline">
+        <mat-label>Experiencia</mat-label>
+        <textarea matInput formControlName="experience" rows="8" placeholder="Proyectos, practicas, experiencia laboral, logros medibles..."></textarea>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Educacion y certificaciones</mat-label>
+        <textarea matInput formControlName="education" rows="8" placeholder="Carrera, cursos, certificaciones, bootcamps..."></textarea>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Texto del CV</mat-label>
+      <textarea
+        matInput
+        formControlName="cvText"
+        rows="10"
+        placeholder="Pega aqui el texto completo de tu CV si adjuntas PDF/DOCX."
+      ></textarea>
+    </mat-form-field>
+  </mat-card>
+
+  <mat-card class="actions panel--wide">
+    <button mat-flat-button color="primary" type="submit">
+      <mat-icon>save</mat-icon>
+      Guardar perfil
+    </button>
+    <button mat-stroked-button type="button" (click)="clear()">
+      <mat-icon>delete</mat-icon>
+      Limpiar
+    </button>
+    <span>Los datos se guardan localmente en tu navegador.</span>
+  </mat-card>
+</form>

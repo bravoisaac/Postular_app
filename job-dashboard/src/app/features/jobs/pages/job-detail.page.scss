@@ -5,17 +5,22 @@
   gap: 12px;
   margin: 0 auto 20px;
   max-width: var(--jd-max);
+  padding: 24px;
+  border-radius: 28px;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.96), rgba(6, 78, 59, 0.92));
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.16);
 }
 
 .title {
-  color: var(--jd-ink);
-  font-size: 24px;
-  font-weight: 700;
+  color: white;
+  font-size: clamp(26px, 3vw, 38px);
+  font-weight: 900;
+  letter-spacing: -0.04em;
   line-height: 1.25;
 }
 
 .company {
-  color: var(--jd-muted);
+  color: rgba(226, 232, 240, 0.76);
   margin-top: 6px;
 }
 
@@ -27,7 +32,7 @@
 }
 
 .wrap {
-  border-radius: 16px;
+  border-radius: 24px;
   padding: 22px;
   background: var(--jd-paper);
   max-width: var(--jd-max);
@@ -40,7 +45,7 @@
 
 .section__title {
   color: var(--jd-ink);
-  font-weight: 700;
+  font-weight: 850;
   margin-bottom: 8px;
 }
 

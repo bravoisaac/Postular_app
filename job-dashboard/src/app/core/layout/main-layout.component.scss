@@ -1,47 +1,50 @@
 .shell {
   height: 100vh;
-  background: var(--jd-paper);
+  background: transparent;
 }
 
 .sidenav {
-  width: 264px;
-  border-right: 1px solid var(--jd-mist);
-  background: var(--jd-paper);
+  width: 286px;
+  border-right: 0;
+  background:
+    radial-gradient(circle at 20% 0%, rgba(16, 185, 129, 0.24), transparent 18rem),
+    linear-gradient(180deg, #0b1220 0%, #111827 100%);
+  color: white;
 }
 
 .brand {
   display: flex;
   gap: 12px;
   align-items: center;
-  padding: 20px 18px 16px;
+  padding: 24px 20px 18px;
 }
 
 .logo {
-  width: 36px;
-  height: 36px;
+  width: 42px;
+  height: 42px;
   display: grid;
   place-items: center;
-  border-radius: 8px;
-  font-weight: 700;
-  background: color-mix(in oklab, var(--jd-mint) 12%, white);
-  color: var(--jd-mint);
-  border: 1px solid color-mix(in oklab, var(--jd-mint) 18%, white);
+  border-radius: 14px;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--jd-mint), #67e8f9);
+  color: #052e26;
+  box-shadow: 0 14px 34px rgba(16, 185, 129, 0.28);
 }
 
 .meta .name {
-  color: var(--jd-ink);
+  color: white;
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 800;
   line-height: 1.1;
 }
 
 .meta .tag {
   font-size: 12px;
-  color: var(--jd-muted);
+  color: rgba(226, 232, 240, 0.72);
 }
 
 .content {
-  background: var(--jd-paper);
+  background: transparent;
 }
 
 .topbar {
@@ -49,9 +52,9 @@
   top: 0;
   z-index: 10;
   min-height: 64px;
-  background: rgba(255, 255, 255, 0.92);
-  border-bottom: 1px solid var(--jd-mist);
-  backdrop-filter: blur(12px);
+  background: rgba(248, 250, 252, 0.78);
+  border-bottom: 1px solid rgba(216, 224, 234, 0.72);
+  backdrop-filter: blur(18px);
   color: var(--jd-ink);
 }
 
@@ -61,8 +64,9 @@
 
 .title {
   color: var(--jd-ink);
-  font-size: 15px;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
 }
 
 .spacer {
@@ -71,28 +75,102 @@
 
 .page {
   min-height: calc(100vh - 64px);
-  padding: 24px;
+  padding: 28px;
 }
 
 .icon-btn {
   color: var(--jd-ink);
+  background: rgba(255, 255, 255, 0.62);
+  border: 1px solid rgba(216, 224, 234, 0.72);
+  margin-left: 8px;
 }
 
 a.active {
-  border-radius: 8px;
-  margin: 0 8px;
-  background: color-mix(in oklab, var(--jd-mint) 8%, white);
-  color: var(--jd-mint);
+  background: rgba(255, 255, 255, 0.12);
+  color: white;
+  box-shadow: inset 3px 0 0 var(--jd-mint);
+  --mdc-list-list-item-label-text-color: white;
+  --mdc-list-list-item-leading-icon-color: #86efac;
 }
 
 mat-nav-list a {
-  margin: 0 8px;
-  border-radius: 8px;
-  color: var(--jd-ink);
+  margin: 4px 12px;
+  border-radius: 14px;
+  color: rgba(226, 232, 240, 0.82);
+  --mdc-list-list-item-label-text-color: rgba(226, 232, 240, 0.82);
+  --mdc-list-list-item-leading-icon-color: rgba(226, 232, 240, 0.62);
+  --mdc-list-list-item-hover-label-text-color: white;
+  --mdc-list-list-item-hover-leading-icon-color: #86efac;
+  --mdc-list-list-item-focus-label-text-color: white;
+  --mdc-list-list-item-focus-leading-icon-color: #86efac;
+  transition: background 140ms ease, color 140ms ease, transform 140ms ease;
 }
 
 mat-nav-list a:hover {
-  background: var(--jd-mist);
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+  transform: translateX(2px);
+}
+
+mat-divider {
+  border-top-color: rgba(226, 232, 240, 0.12);
+}
+
+.sidebar-card {
+  display: grid;
+  gap: 10px;
+  margin: 18px 14px;
+  padding: 16px;
+  border: 1px solid rgba(226, 232, 240, 0.14);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+}
+
+.sidebar-card__icon {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  background: rgba(16, 185, 129, 0.16);
+  color: #86efac;
+}
+
+.sidebar-card strong,
+.sidebar-card span {
+  display: block;
+}
+
+.sidebar-card strong {
+  font-size: 13px;
+}
+
+.sidebar-card span {
+  margin-top: 2px;
+  color: rgba(226, 232, 240, 0.68);
+  font-size: 12px;
+}
+
+.sidebar-card a {
+  justify-self: start;
+  color: #86efac;
+}
+
+:host ::ng-deep .sidenav .mdc-list-item__primary-text {
+  color: rgba(226, 232, 240, 0.82) !important;
+}
+
+:host ::ng-deep .sidenav .mat-mdc-list-item-icon {
+  color: rgba(226, 232, 240, 0.62) !important;
+}
+
+:host ::ng-deep .sidenav a.active .mdc-list-item__primary-text {
+  color: white !important;
+}
+
+:host ::ng-deep .sidenav a.active .mat-mdc-list-item-icon {
+  color: #86efac !important;
 }
 
 @media (min-width: 600px) {

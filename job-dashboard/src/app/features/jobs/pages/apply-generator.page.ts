@@ -12,6 +12,7 @@ import { map, switchMap } from 'rxjs';
 
 import { JobService } from '../job.service';
 import { JobsStore } from '../jobs.store';
+import { ProfileStore } from '../../profile/profile.store';
 
 @Component({
   selector: 'app-apply-generator-page',
@@ -34,16 +35,24 @@ export class ApplyGeneratorPageComponent {
   private readonly clipboard = inject(Clipboard);
   private readonly snackBar = inject(MatSnackBar);
   private readonly jobsStore = inject(JobsStore);
+  readonly profileStore = inject(ProfileStore);
 
   readonly correoControl = new FormControl('', { nonNullable: true });
   readonly mensajeControl = new FormControl('', { nonNullable: true });
+  readonly cvControl = new FormControl('', { nonNullable: true });
 
   readonly vm$ = this.route.paramMap.pipe(
     map((params) => Number(params.get('id'))),
-    switchMap((jobId) => this.jobService.generate({ job_id: jobId })),
+    switchMap((jobId) =>
+      this.jobService.generate({
+        job_id: jobId,
+        profile: this.profileStore.snapshot()
+      })
+    ),
     map((res) => {
       this.correoControl.setValue(res.correo ?? '');
       this.mensajeControl.setValue(res.mensaje_linkedin ?? '');
+      this.cvControl.setValue(res.cv ?? '');
       return res;
     })
   );
@@ -60,6 +69,13 @@ export class ApplyGeneratorPageComponent {
     if (navigator.clipboard?.writeText) navigator.clipboard.writeText(text);
     else this.clipboard.copy(text);
     this.snackBar.open('Mensaje copiado', 'Cerrar', { duration: 2000 });
+  }
+
+  copyCv() {
+    const text = this.cvControl.value;
+    if (navigator.clipboard?.writeText) navigator.clipboard.writeText(text);
+    else this.clipboard.copy(text);
+    this.snackBar.open('CV copiado', 'Cerrar', { duration: 2000 });
   }
 
   markApplied() {

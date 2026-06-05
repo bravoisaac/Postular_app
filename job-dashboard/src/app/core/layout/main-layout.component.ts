@@ -1,7 +1,6 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
@@ -26,8 +25,7 @@ type NavItem = { label: string; icon: string; to: string };
     MatButtonModule,
     MatListModule,
     MatDividerModule,
-    MatMenuModule,
-    MatBadgeModule
+    MatMenuModule
   ],
   templateUrl: './main-layout.component.html',
   styleUrl: './main-layout.component.scss'
@@ -40,6 +38,8 @@ export class MainLayoutComponent {
     { label: 'Dashboard', icon: 'dashboard', to: '/dashboard' },
     { label: 'Trabajos', icon: 'work', to: '/jobs' },
     { label: 'Postulaciones', icon: 'send', to: '/applications' },
+    { label: 'Perfil', icon: 'person', to: '/profile' },
+    { label: 'Configuración', icon: 'settings', to: '/settings' },
     { label: 'Estadísticas', icon: 'bar_chart', to: '/stats' }
   ];
 

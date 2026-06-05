@@ -4,9 +4,30 @@
     Volver
   </a>
   <div class="title">Generador de postulacion</div>
+  <span class="spacer"></span>
+  <a mat-stroked-button routerLink="/profile">
+    <mat-icon>person</mat-icon>
+    Editar perfil
+  </a>
 </div>
 
 @if (vm$ | async; as res) {
+  <mat-card class="profile-status" [class.profile-status--ok]="profileStore.hasPersonalData()">
+    <mat-icon>{{ profileStore.hasPersonalData() ? 'verified' : 'info' }}</mat-icon>
+    <div>
+      <strong>
+        {{ profileStore.hasPersonalData() ? 'Perfil usado por la IA' : 'Completa tu perfil' }}
+      </strong>
+      <p>
+        {{
+          profileStore.hasPersonalData()
+            ? 'La postulacion y el CV fueron generados con tus datos personales y CV base.'
+            : 'Agrega tus datos personales y CV para obtener mejores postulaciones.'
+        }}
+      </p>
+    </div>
+  </mat-card>
+
   <div class="grid">
     <mat-card class="panel">
       <div class="panel__head">
@@ -26,6 +47,19 @@
         </button>
       </div>
       <textarea class="text" [formControl]="mensajeControl" rows="10"></textarea>
+    </mat-card>
+
+    <mat-card class="panel panel--wide">
+      <div class="panel__head">
+        <div>
+          <div class="panel__title">CV adaptado</div>
+          <div class="hint">Version enfocada en la oferta, basada en tu perfil y CV adjunto.</div>
+        </div>
+        <button mat-icon-button (click)="copyCv()" aria-label="Copiar CV">
+          <mat-icon>content_copy</mat-icon>
+        </button>
+      </div>
+      <textarea class="text" [formControl]="cvControl" rows="16"></textarea>
     </mat-card>
 
     <mat-card class="panel actions">

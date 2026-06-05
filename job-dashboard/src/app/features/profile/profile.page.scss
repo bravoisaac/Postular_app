@@ -1,0 +1,144 @@
+.header,
+.profile-grid {
+  max-width: var(--jd-max);
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding: 26px;
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at 90% 0%, rgba(16, 185, 129, 0.18), transparent 18rem),
+    linear-gradient(135deg, #0f172a, #1e293b);
+  color: white;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.16);
+}
+
+.eyebrow {
+  color: #86efac;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+h1 {
+  margin-top: 6px;
+  color: white;
+  font-size: clamp(28px, 4vw, 40px);
+  line-height: 1.05;
+}
+
+h2 {
+  color: var(--jd-ink);
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.header p {
+  color: rgba(226, 232, 240, 0.78);
+}
+
+p,
+.cv-upload span,
+.actions span {
+  color: var(--jd-muted);
+  font-size: 12px;
+}
+
+.profile-grid {
+  display: grid;
+  align-items: start;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.panel {
+  display: grid;
+  align-content: start;
+  gap: 16px;
+  padding: 20px;
+  border-radius: 22px;
+  border: 1px solid var(--jd-mist);
+  background: var(--jd-paper);
+  box-shadow: var(--jd-shadow);
+}
+
+.panel--wide {
+  grid-column: 1 / -1;
+}
+
+.panel__head {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.panel__head mat-icon {
+  color: var(--jd-mint);
+  padding: 8px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.14), rgba(37, 99, 235, 0.1));
+}
+
+.fields {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+}
+
+.fields.two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.cv-upload {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.actions span {
+  margin-left: auto;
+}
+
+@media (max-width: 900px) {
+  .profile-grid,
+  .fields.two {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .header,
+  .actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .header a,
+  .actions button {
+    width: 100%;
+  }
+
+  .actions span {
+    margin-left: 0;
+  }
+}

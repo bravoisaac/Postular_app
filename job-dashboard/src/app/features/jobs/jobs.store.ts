@@ -15,6 +15,7 @@ import {
 
 import { JobService } from './job.service';
 import { Job } from './types';
+import { SettingsStore } from '../settings/settings.store';
 
 type JobsState = {
   loading: boolean;
@@ -33,16 +34,24 @@ export type JobsVm = {
 @Injectable({ providedIn: 'root' })
 export class JobsStore {
   private readonly jobService = inject(JobService);
+  private readonly settingsStore = inject(SettingsStore);
+  private readonly initialSettings = this.settingsStore.snapshot();
 
   private readonly state$ = new BehaviorSubject<JobsState>({ loading: false, jobs: [] });
 
   readonly jobs$ = this.state$.pipe(map((s) => s.jobs));
 
   readonly searchControl = new FormControl('', { nonNullable: true });
-  readonly techControl = new FormControl('', { nonNullable: true });
-  readonly locationControl = new FormControl('', { nonNullable: true });
-  readonly minScoreControl = new FormControl<number | null>(0);
-  readonly hideAppliedControl = new FormControl(true, { nonNullable: true });
+  readonly techControl = new FormControl(this.initialSettings.preferredTechnology, {
+    nonNullable: true
+  });
+  readonly locationControl = new FormControl(this.initialSettings.preferredLocation, {
+    nonNullable: true
+  });
+  readonly minScoreControl = new FormControl<number | null>(this.initialSettings.minScoreDefault);
+  readonly hideAppliedControl = new FormControl(this.initialSettings.hideAppliedByDefault, {
+    nonNullable: true
+  });
 
   private readonly search$ = this.searchControl.valueChanges.pipe(
     startWith(this.searchControl.value),

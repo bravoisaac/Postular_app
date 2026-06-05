@@ -1,3 +1,5 @@
+import type { CandidateProfile } from '../profile/profile.store';
+
 export interface Job {
   id: number;
   titulo: string;
@@ -25,11 +27,14 @@ export type CreateJobRequest = Omit<Job, 'id'>;
 
 export interface GenerateRequest {
   job_id: number;
+  profile?: CandidateProfile;
 }
 
 export interface GenerateResponse {
   correo: string;
   mensaje_linkedin: string;
+  cv?: string;
+  mock?: boolean;
 }
 
 export interface DiscoverJobsRequest {

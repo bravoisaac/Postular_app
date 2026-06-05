@@ -60,7 +60,10 @@ export class JobsListPageComponent {
 
   discoverWithAi() {
     const ref = this.dialog.open(DiscoverJobsDialogComponent, {
-      autoFocus: false
+      autoFocus: false,
+      width: 'min(980px, 96vw)',
+      maxWidth: '96vw',
+      maxHeight: '90vh'
     });
     ref.afterClosed().subscribe((result) => {
       if (result?.imported) this.jobsStore.loadJobs();

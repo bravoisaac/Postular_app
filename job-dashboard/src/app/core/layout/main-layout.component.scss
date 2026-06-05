@@ -1,51 +1,58 @@
 .shell {
   height: 100vh;
+  background: var(--jd-paper);
 }
 
 .sidenav {
-  width: 280px;
-  border-right: 1px solid color-mix(in oklab, var(--jd-sys-outline) 60%, transparent);
-  background: color-mix(in oklab, var(--jd-sys-surface) 96%, white);
+  width: 264px;
+  border-right: 1px solid var(--jd-mist);
+  background: var(--jd-paper);
 }
 
 .brand {
   display: flex;
   gap: 12px;
   align-items: center;
-  padding: 16px 16px 12px;
+  padding: 20px 18px 16px;
 }
 
 .logo {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   display: grid;
   place-items: center;
-  border-radius: 12px;
+  border-radius: 8px;
   font-weight: 700;
-  background: color-mix(in oklab, var(--jd-sys-primary) 16%, transparent);
-  color: var(--jd-sys-primary);
+  background: color-mix(in oklab, var(--jd-mint) 12%, white);
+  color: var(--jd-mint);
+  border: 1px solid color-mix(in oklab, var(--jd-mint) 18%, white);
 }
 
 .meta .name {
+  color: var(--jd-ink);
+  font-size: 15px;
   font-weight: 700;
   line-height: 1.1;
 }
 
 .meta .tag {
   font-size: 12px;
-  opacity: 0.75;
+  color: var(--jd-muted);
 }
 
 .content {
-  background: transparent;
+  background: var(--jd-paper);
 }
 
 .topbar {
   position: sticky;
   top: 0;
   z-index: 10;
-  background: color-mix(in oklab, var(--jd-sys-surface) 92%, white);
-  border-bottom: 1px solid color-mix(in oklab, var(--jd-sys-outline) 50%, transparent);
+  min-height: 64px;
+  background: rgba(255, 255, 255, 0.92);
+  border-bottom: 1px solid var(--jd-mist);
+  backdrop-filter: blur(12px);
+  color: var(--jd-ink);
 }
 
 .menu-btn {
@@ -53,6 +60,8 @@
 }
 
 .title {
+  color: var(--jd-ink);
+  font-size: 15px;
   font-weight: 600;
 }
 
@@ -61,21 +70,39 @@
 }
 
 .page {
-  padding: 16px;
+  min-height: calc(100vh - 64px);
+  padding: 24px;
 }
 
 .icon-btn {
-  color: color-mix(in oklab, var(--jd-sys-on-surface) 85%, transparent);
+  color: var(--jd-ink);
 }
 
 a.active {
-  border-radius: 12px;
+  border-radius: 8px;
   margin: 0 8px;
-  background: color-mix(in oklab, var(--jd-sys-primary) 12%, transparent);
+  background: color-mix(in oklab, var(--jd-mint) 8%, white);
+  color: var(--jd-mint);
+}
+
+mat-nav-list a {
+  margin: 0 8px;
+  border-radius: 8px;
+  color: var(--jd-ink);
+}
+
+mat-nav-list a:hover {
+  background: var(--jd-mist);
 }
 
 @media (min-width: 600px) {
   .menu-btn {
     display: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .page {
+    padding: 16px;
   }
 }

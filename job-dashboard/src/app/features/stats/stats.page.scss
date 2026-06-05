@@ -1,16 +1,19 @@
 .wrap {
   border-radius: 16px;
-  padding: 16px;
-  background: color-mix(in oklab, var(--jd-sys-surface) 96%, white);
+  padding: 20px;
+  background: var(--jd-paper);
+  max-width: var(--jd-max);
+  margin: 0 auto;
 }
 
 .title {
-  font-weight: 900;
+  color: var(--jd-ink);
+  font-weight: 700;
   font-size: 20px;
 }
 
 .hint {
   font-size: 12px;
-  opacity: 0.75;
+  color: var(--jd-muted);
   margin-bottom: 12px;
 }

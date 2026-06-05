@@ -1,7 +1,7 @@
 <div class="head">
   <div>
-    <div class="title">Descubrir trabajos (IA)</div>
-    <div class="hint">Requiere un endpoint en FastAPI: <code>POST /discover</code>.</div>
+    <div class="title">Descubrir trabajos IA</div>
+    <div class="hint">Busqueda personalizada para tus cargos objetivo.</div>
   </div>
   <button mat-icon-button (click)="close()" aria-label="Cerrar">
     <mat-icon>close</mat-icon>
@@ -10,13 +10,13 @@
 
 <form class="form" [formGroup]="form" (ngSubmit)="discover()">
   <mat-form-field appearance="outline">
-    <mat-label>Qué buscar</mat-label>
+    <mat-label>Que buscar</mat-label>
     <input matInput formControlName="query" placeholder="Ej: Angular Developer remoto" />
-    <mat-hint>Puedes dejarlo vacío y usar “Cargos (personal)” + “Armar búsqueda”.</mat-hint>
+    <mat-hint>Combina texto libre, cargos, ubicacion y tecnologias.</mat-hint>
   </mat-form-field>
 
   <mat-form-field appearance="outline">
-    <mat-label>Cargos (personal)</mat-label>
+    <mat-label>Cargos personales</mat-label>
     <mat-select formControlName="roles" multiple>
       @for (r of personalRoles; track r) {
         <mat-option [value]="r">{{ r }}</mat-option>
@@ -29,17 +29,17 @@
     <mat-slide-toggle formControlName="noExperience">Junior + sin experiencia</mat-slide-toggle>
     <button mat-stroked-button type="button" (click)="fillQueryFromRoles()" [disabled]="loading()">
       <mat-icon>auto_fix_high</mat-icon>
-      Armar búsqueda
+      Armar busqueda
     </button>
   </div>
 
   <mat-form-field appearance="outline">
-    <mat-label>Ubicación</mat-label>
+    <mat-label>Ubicacion</mat-label>
     <input matInput formControlName="location" placeholder="Ej: Chile, Remoto" />
   </mat-form-field>
 
   <mat-form-field appearance="outline">
-    <mat-label>Tecnologías</mat-label>
+    <mat-label>Tecnologias</mat-label>
     <mat-select formControlName="technologies" multiple>
       <mat-option value="Python">Python</mat-option>
       <mat-option value="FastAPI">FastAPI</mat-option>
@@ -51,7 +51,7 @@
   </mat-form-field>
 
   <mat-form-field appearance="outline">
-    <mat-label>Límite</mat-label>
+    <mat-label>Limite</mat-label>
     <input matInput type="number" formControlName="limit" min="1" max="50" />
   </mat-form-field>
 
@@ -71,7 +71,7 @@
 @if (loading()) {
   <div class="loading">
     <mat-spinner diameter="40" />
-    <div>Buscando con IA…</div>
+    <div>Buscando con IA...</div>
   </div>
 } @else {
   @if (results().length) {
@@ -99,7 +99,7 @@
   } @else {
     <div class="empty">
       <mat-icon>tips_and_updates</mat-icon>
-      <div>Escribe un término y busca para traer URLs desde el backend IA.</div>
+      <div>Define una busqueda para obtener oportunidades.</div>
     </div>
   }
 }

@@ -1,6 +1,13 @@
 :host {
   display: block;
-  width: min(1100px, 94vw);
+  width: 100%;
+  max-width: 100%;
+  color: var(--jd-black);
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 .head {
@@ -12,13 +19,14 @@
 }
 
 .title {
-  font-weight: 900;
+  color: var(--jd-ink);
+  font-weight: 700;
   font-size: 18px;
 }
 
 .hint {
   font-size: 12px;
-  opacity: 0.75;
+  color: var(--jd-muted);
   margin-top: 4px;
 }
 
@@ -27,19 +35,13 @@
   grid-template-columns: repeat(12, 1fr);
   gap: 12px;
   padding: 12px 16px 8px;
+  min-width: 0;
 }
 
-.form mat-form-field:nth-child(1) {
+.form mat-form-field {
   grid-column: span 12;
-}
-.form mat-form-field:nth-child(2) {
-  grid-column: span 12;
-}
-.form mat-form-field:nth-child(3) {
-  grid-column: span 12;
-}
-.form mat-form-field:nth-child(4) {
-  grid-column: span 12;
+  width: 100%;
+  min-width: 0;
 }
 
 .toggles {
@@ -49,6 +51,11 @@
   flex-wrap: wrap;
   gap: 12px;
   padding: 2px 0 4px;
+  min-width: 0;
+}
+
+.toggles button {
+  flex: 0 1 auto;
 }
 
 .actions {
@@ -57,6 +64,10 @@
   align-items: center;
   gap: 10px;
   padding: 4px 0 0;
+}
+
+.actions button {
+  min-height: 40px;
 }
 
 .spacer {
@@ -69,7 +80,7 @@
   place-items: center;
   gap: 10px;
   padding: 22px 0 18px;
-  opacity: 0.9;
+  color: var(--jd-muted);
 }
 
 .grid {
@@ -81,19 +92,24 @@
 
 .card {
   border-radius: 16px;
-  padding: 14px;
-  background: color-mix(in oklab, var(--jd-sys-surface) 96%, white);
+  padding: 18px;
+  background: var(--jd-paper);
+  border: 1px solid var(--jd-mist);
+  box-shadow: var(--jd-shadow);
+  min-width: 0;
 }
 
 .card__title {
-  font-weight: 900;
+  color: var(--jd-ink);
+  font-weight: 700;
   font-size: 16px;
+  line-height: 1.3;
 }
 
 .card__sub {
   margin-top: 4px;
   font-size: 12px;
-  opacity: 0.8;
+  color: var(--jd-muted);
 }
 
 .card__link {
@@ -102,7 +118,7 @@
   align-items: flex-start;
   gap: 8px;
   font-size: 12px;
-  opacity: 0.9;
+  color: var(--jd-muted);
   overflow: hidden;
 }
 
@@ -141,8 +157,45 @@
   }
 }
 
+@media (max-width: 900px) {
+  .toggles {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .toggles button {
+    width: 100%;
+  }
+}
+
 @media (min-width: 1200px) {
   .grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  :host {
+    width: 96vw;
+  }
+
+  .head,
+  .form,
+  .grid {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .actions button {
+    width: 100%;
+  }
+
+  .spacer {
+    display: none;
   }
 }

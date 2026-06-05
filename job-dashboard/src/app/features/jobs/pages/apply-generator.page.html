@@ -3,7 +3,7 @@
     <mat-icon>arrow_back</mat-icon>
     Volver
   </a>
-  <div class="title">Generador de postulación</div>
+  <div class="title">Generador de postulacion</div>
 </div>
 
 @if (vm$ | async; as res) {
@@ -33,12 +33,12 @@
         <mat-icon>check_circle</mat-icon>
         Marcar como aplicado
       </button>
-      <div class="hint">Tip: Copia y pega en tu flujo real de postulación.</div>
+      <div class="hint">Copia el texto, envialo y marca el trabajo como aplicado.</div>
     </mat-card>
   </div>
 } @else {
   <div class="loading">
     <mat-spinner diameter="44"></mat-spinner>
-    <div>Generando con IA…</div>
+    <div>Generando con IA...</div>
   </div>
 }

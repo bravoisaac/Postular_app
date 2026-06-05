@@ -9,8 +9,8 @@ import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { map } from 'rxjs';
+import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { filter, map, startWith } from 'rxjs';
 
 type NavItem = { label: string; icon: string; to: string };
 
@@ -34,6 +34,7 @@ type NavItem = { label: string; icon: string; to: string };
 })
 export class MainLayoutComponent {
   private readonly breakpointObserver = inject(BreakpointObserver);
+  private readonly router = inject(Router);
 
   readonly nav: NavItem[] = [
     { label: 'Dashboard', icon: 'dashboard', to: '/dashboard' },
@@ -45,6 +46,15 @@ export class MainLayoutComponent {
   readonly isHandset = toSignal(
     this.breakpointObserver.observe(Breakpoints.Handset).pipe(map((state) => state.matches)),
     { initialValue: false }
+  );
+
+  readonly pageTitle = toSignal(
+    this.router.events.pipe(
+      filter((event) => event instanceof NavigationEnd),
+      startWith(null),
+      map(() => this.nav.find((item) => this.router.url.startsWith(item.to))?.label ?? 'Dashboard')
+    ),
+    { initialValue: 'Dashboard' }
   );
 
   maybeClose(drawer: MatSidenav) {

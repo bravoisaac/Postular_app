@@ -16,7 +16,7 @@
       <div class="cta">
         <a mat-stroked-button [routerLink]="['/jobs', vm.job.id, 'generate']">
           <mat-icon>auto_awesome</mat-icon>
-          Generar postulación
+          Generar postulacion
         </a>
         <button mat-flat-button color="primary" (click)="openOffer(vm.job)">
           <mat-icon>open_in_new</mat-icon>
@@ -42,12 +42,12 @@
       </div>
 
       <div class="section">
-        <div class="section__title">Descripción</div>
+        <div class="section__title">Descripcion</div>
         <div class="desc">{{ vm.job.descripcion }}</div>
       </div>
 
       <div class="section">
-        <div class="section__title">Análisis IA</div>
+        <div class="section__title">Analisis IA</div>
         @if (vm.job.ia_razones?.length) {
           <mat-chip-set>
             @for (r of vm.job.ia_razones; track r) {
@@ -55,7 +55,7 @@
             }
           </mat-chip-set>
         } @else {
-          <div class="muted">El backend no envió razones; se mostrará solo el score.</div>
+          <div class="muted">El backend no envio razones; se mostrara solo el score.</div>
         }
       </div>
     </mat-card>
@@ -63,6 +63,6 @@
 } @else {
   <div class="loading">
     <mat-spinner diameter="44"></mat-spinner>
-    <div>Cargando…</div>
+    <div>Cargando...</div>
   </div>
 }

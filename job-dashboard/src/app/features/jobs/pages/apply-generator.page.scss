@@ -2,24 +2,28 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 12px;
+  margin: 0 auto 20px;
+  max-width: var(--jd-max);
 }
 
 .title {
   font-size: 20px;
-  font-weight: 900;
+  font-weight: 700;
+  color: var(--jd-ink);
 }
 
 .grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 12px;
+  gap: 16px;
+  max-width: var(--jd-max);
+  margin: 0 auto;
 }
 
 .panel {
   border-radius: 16px;
-  padding: 14px;
-  background: color-mix(in oklab, var(--jd-sys-surface) 96%, white);
+  padding: 20px;
+  background: var(--jd-paper);
 }
 
 .panel__head {
@@ -31,17 +35,24 @@
 }
 
 .panel__title {
-  font-weight: 800;
+  color: var(--jd-ink);
+  font-weight: 700;
 }
 
 .text {
   width: 100%;
   resize: vertical;
-  border: 1px solid color-mix(in oklab, var(--jd-sys-outline) 60%, transparent);
-  border-radius: 12px;
+  border: 1px solid var(--jd-cloud);
+  border-radius: 4px;
   padding: 12px;
   font: inherit;
-  background: color-mix(in oklab, var(--jd-sys-surface) 90%, white);
+  color: var(--jd-black);
+  background: var(--jd-paper);
+}
+
+.text:focus {
+  border-color: var(--jd-mint);
+  outline: none;
 }
 
 .actions {
@@ -51,7 +62,7 @@
 
 .hint {
   font-size: 12px;
-  opacity: 0.75;
+  color: var(--jd-muted);
 }
 
 .loading {
@@ -59,6 +70,7 @@
   place-items: center;
   gap: 10px;
   padding: 32px 0;
+  color: var(--jd-muted);
 }
 
 @media (min-width: 900px) {

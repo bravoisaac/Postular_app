@@ -3,17 +3,19 @@
   align-items: flex-end;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 12px;
+  margin: 0 auto 20px;
+  max-width: var(--jd-max);
 }
 
 .title {
-  font-size: 22px;
-  font-weight: 900;
-  line-height: 1.1;
+  color: var(--jd-ink);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.25;
 }
 
 .company {
-  opacity: 0.8;
+  color: var(--jd-muted);
   margin-top: 6px;
 }
 
@@ -26,8 +28,10 @@
 
 .wrap {
   border-radius: 16px;
-  padding: 16px;
-  background: color-mix(in oklab, var(--jd-sys-surface) 96%, white);
+  padding: 22px;
+  background: var(--jd-paper);
+  max-width: var(--jd-max);
+  margin: 0 auto;
 }
 
 .section + .section {
@@ -35,24 +39,25 @@
 }
 
 .section__title {
-  font-weight: 800;
+  color: var(--jd-ink);
+  font-weight: 700;
   margin-bottom: 8px;
 }
 
 .desc {
   white-space: pre-wrap;
   line-height: 1.55;
-  opacity: 0.95;
+  color: var(--jd-black);
 }
 
 .score__value {
-  font-weight: 900;
+  font-weight: 700;
   font-size: 18px;
   margin-bottom: 8px;
 }
 
 .progress.score--good {
-  --mdc-linear-progress-active-indicator-color: #2e7d32;
+  --mdc-linear-progress-active-indicator-color: var(--jd-mint);
 }
 
 .progress.score--mid {
@@ -65,7 +70,7 @@
 
 .muted {
   font-size: 12px;
-  opacity: 0.75;
+  color: var(--jd-muted);
 }
 
 .loading,
@@ -74,5 +79,5 @@
   place-items: center;
   gap: 8px;
   padding: 28px 0;
-  opacity: 0.85;
+  color: var(--jd-muted);
 }

@@ -43,7 +43,6 @@ Aplicacion web para gestionar postulaciones laborales con apoyo de IA. Permite c
 | Frontend | Angular 21, Angular Material, SCSS |
 | Graficos | Chart.js, ng2-charts |
 | Backend | Node.js, Express |
-| IA | OpenAI API |
 | Persistencia | Archivo JSON local |
 
 ## Requisitos
